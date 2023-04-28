@@ -25,7 +25,7 @@ def get_bin(variable,lim_0, lim_1, vrb):
         print('Creating the binning: ', lim_0, lim_1, bin, bin_c) 
     return bin/bin_c
 
-def read_file(path,is_mc, d_bins, vrb):
+def read_file(path, is_mc, d_bins, vrb):
     variable_values = []
     r_values = []
 
@@ -89,17 +89,23 @@ def get_chi2_variable(variable, is_pp, vrb):
     return get_chi2(data,model, variable, vrb)
 
 def get_all_chi2(variable_names, is_pp, vrb):
+    sum_chi2 = 0
     for i in range(len(variable_names)):
         if is_pp == True:
             tag = 'pp'
         else:
             tag = ''
         print(variable_names[i], tag, get_chi2_variable(variable_names[i], is_pp, vrb))
+        sum_chi2 += get_chi2_variable(variable_names[i], is_pp, vrb)
+
+    return sum_chi2
 
 def main():
     variable_names = ['x1nu','x2nu','xfnu','mnu','ptnu']
-    variable_names = ['ptnu']
-    get_all_chi2(variable_names, True, 0)
+    #variable_names = ['ptnu']
+    print(get_all_chi2(variable_names, True, 0))
+    print(get_all_chi2(variable_names, False, 0))
+    print((get_all_chi2(variable_names, False, 0) + get_all_chi2(variable_names, True, 0))/(27+27))
     #get_all_chi2(variable_names, False)
 
 if __name__ == "__main__":
