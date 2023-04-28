@@ -84,7 +84,7 @@ def get_all_chi2():
     for i in range(len(variablie_names)):
         print(variablie_names[i],get_chi2_variable(variablie_names[i], True))
     for i in range(len(variablie_names)):
-        print(variablie_names[i],get_chi2_variable(variablie_names[i], False))
+        print(variablie_names[i],'pp',get_chi2_variable(variablie_names[i], False))
 
 def main():
     get_all_chi2()
