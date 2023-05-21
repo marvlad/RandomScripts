@@ -83,7 +83,7 @@ float get_chi2(vector<vector<float> > data, vector<vector<float> > model, int ve
     float chi2 = 0;
     for (int j = 0; j < data[0].size(); j++){
         float data_value = data[0][j];
-        float model_value = model[0][j];
+        float model_value = model[1][j];
         float chi2_n = (data_value - model_value);
         float chi2_d = data[1][j];
         float s_chi2 = chi2_n / chi2_d;
@@ -97,12 +97,30 @@ float get_chi2(vector<vector<float> > data, vector<vector<float> > model, int ve
 int main(){
 
     int verbose = 2;
-    string model_path = "/Users/marvinascenciososa/Downloads/chisq/5M_data/ptnu.txt";
+    //string model_path = "/Users/marvinascenciososa/Downloads/chisq/5M_data/ptnu.txt";
     string data_path = "/Users/marvinascenciososa/Downloads/chisq/E866data/ptnudata.txt";
     vector <float> ptnu_bin{0.0, 0.5, 1.0, 1.5, 2.0, 4.0};
 
     vector<vector<float> > data =  read_files(data_path, false, verbose, ptnu_bin);
-    vector<vector<float> > model = read_files(model_path, true, verbose, ptnu_bin); 
+    //vector<vector<float> > model = read_files(model_path, true, verbose, ptnu_bin); 
+
+    // Creating the vector given the stuff
+    // void nuvsq(double& aq2, const std::string& setname, int& imem,int& iset,const PDF* pdf,double& rationuq);
+    // This asumes that the bining will be the same that the data
+
+    vector<vector<float> > model;
+    vector<float> x_axis; // bin index
+    vector<float> y_axis; // value
+
+    // we are assuming here that aq2 is a binning, NOT a single point
+    for (int i=0; i < data_bin /* add properly*/; i++){
+        nuvsq(double& aq2, const std::string& setname, int& imem,int& iset,const PDF* pdf,double& rationuq); 
+        x_axis.push_back(aq2);
+        y_axis.push_back(rationuq);
+    }
+
+    model.push_back(x_axis);
+    model.push_back(y_axis);
 
     cout << get_chi2(data, model, verbose) << endl; 
 
